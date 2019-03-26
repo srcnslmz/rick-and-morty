@@ -45,18 +45,6 @@ class AllCharacters extends Component {
     componentDidMount(){
         window.addEventListener("scroll", this.handleScroll);
         this.getCharacters()
-        // fetch(API_URL)
-        //     .then(response => response.json())
-        //     .then(res => {
-        //         const characters = res.results;
-        //         this.setState({ characters, error: false });
-        //         console.log("res", this.state.characters)
-        //     })
-        //     .catch(err => (
-        //         this.setState({
-        //             error: true
-        //         })
-        //     ))
     }
     componentWillUnmount() {
         window.removeEventListener("scroll", this.handleScroll);
