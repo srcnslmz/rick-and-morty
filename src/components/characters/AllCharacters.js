@@ -31,9 +31,15 @@ class AllCharacters extends Component {
                 const newCharacters = characters.concat(r)
                 this.setState({
                     characters: newCharacters,
-                    page: page+1
-                });
+                    page: page+1,
+                    error: false
+                    });
             })
+            .catch(err => (
+                this.setState({
+                    error: true
+                })
+            ))
     }
     componentDidMount(){
         window.addEventListener("scroll", this.handleScroll);
@@ -47,7 +53,7 @@ class AllCharacters extends Component {
         window.removeEventListener("scroll", this.handleScroll);
     }
     render() {
-        const { characters } = this.state
+        const { characters, error } = this.state
         return (
             <>
                 <header>
@@ -77,6 +83,10 @@ class AllCharacters extends Component {
                                 </figure>
                             ))}
                         </div>
+                    }
+                    {
+                        error &&
+                        <div>Something went wrong. Please try again later.</div>
                     }
                 </div>
             </>

@@ -29,6 +29,9 @@ class Character extends React.Component {
     }
     render() {
         const { character } = this.props.location.state
+        if(character === undefined || character === ''){
+            return null
+        }
         return(
             <div class="c-wrapper">
                 <div class="product-img">
