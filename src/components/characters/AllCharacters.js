@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const API_URL = "https://rickandmortyapi.com/api/character/"
@@ -10,7 +9,8 @@ class AllCharacters extends Component {
         this.state = {
             characters: [],
             height: window.innerHeight,
-            page: 2
+            page: 1,
+            error: false
         }
     }
     handleScroll = () => {
@@ -25,15 +25,16 @@ class AllCharacters extends Component {
     }
     getCharacters = () => {
         const { page, characters } = this.state
-        axios.get(API_URL+`?page=${page}`)
+        fetch(API_URL+`?page=${page}`)
+            .then(response => response.json())
             .then(res => {
-                const r = res.data.results;
+                const r = res.results;
                 const newCharacters = characters.concat(r)
                 this.setState({
                     characters: newCharacters,
                     page: page+1,
                     error: false
-                    });
+                });
             })
             .catch(err => (
                 this.setState({
@@ -43,11 +44,19 @@ class AllCharacters extends Component {
     }
     componentDidMount(){
         window.addEventListener("scroll", this.handleScroll);
-        axios.get(API_URL)
-            .then(res => {
-                const characters = res.data.results;
-                this.setState({ characters });
-            })
+        this.getCharacters()
+        // fetch(API_URL)
+        //     .then(response => response.json())
+        //     .then(res => {
+        //         const characters = res.results;
+        //         this.setState({ characters, error: false });
+        //         console.log("res", this.state.characters)
+        //     })
+        //     .catch(err => (
+        //         this.setState({
+        //             error: true
+        //         })
+        //     ))
     }
     componentWillUnmount() {
         window.removeEventListener("scroll", this.handleScroll);
@@ -61,7 +70,7 @@ class AllCharacters extends Component {
                 </header>
                 <div className="character-wrapper">
                     {
-                        characters &&
+                        characters && error === false &&
                         <div className="character-list">
                             {Object.keys(characters).map((character, i) => (
                                 <figure className="character-figure" key={i}>
@@ -86,7 +95,9 @@ class AllCharacters extends Component {
                     }
                     {
                         error &&
-                        <div>Something went wrong. Please try again later.</div>
+                        <div style={{ fontSize: "50px", textAlign: "center", color: '#fff' }}>
+                            Something went wrong. Please try again later.
+                        </div>
                     }
                 </div>
             </>

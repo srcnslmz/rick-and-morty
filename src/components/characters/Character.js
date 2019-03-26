@@ -28,12 +28,12 @@ class Character extends React.Component {
         this.props.history.goBack();
     }
     render() {
-        // const { character } = this.props.location.state
-        // if(character === undefined || character === ''){
-        //     return true
-        // }
+        const { character } = this.props.location.state
+        if(character === undefined || character === ''){
+            return true
+        }
         return(
-            {/* <div class="c-wrapper">
+            <div class="c-wrapper">
                 <div class="product-img">
                     <img src={character['image']} height="420" width="327" />
                 </div>
@@ -50,7 +50,7 @@ class Character extends React.Component {
                     <span class="label">Go Back</span>
                     <span class="line bLine"></span>
                 </div>
-            </div> */}
+            </div>
         )
     }
 }
