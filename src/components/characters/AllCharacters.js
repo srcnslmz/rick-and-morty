@@ -25,7 +25,8 @@ class AllCharacters extends Component {
     }
     getCharacters = () => {
         const { page, characters } = this.state
-        fetch(API_URL+`?page=${page}`)
+        if(page <= 25){
+            fetch(API_URL+`?page=${page}`)
             .then(response => response.json())
             .then(res => {
                 const r = res.results;
@@ -41,6 +42,7 @@ class AllCharacters extends Component {
                     error: true
                 })
             ))
+        }
     }
     componentDidMount(){
         window.addEventListener("scroll", this.handleScroll);
